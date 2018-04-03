@@ -3,7 +3,7 @@
 // }
 
   //variable array of topics
-  var topics = ["computers", "cellphones", "networks", "software", "coding"];
+  var topics = ["computers", "cellphones", "networks", "software", "coding", "microprocessors", "LAN", "WAN", "RAM", ];
 
    // Function for displaying gif data.
    function renderButtons() {
@@ -42,8 +42,8 @@
   });
    // Calling the renderButtons function to display the initial list of gif buttons.
    renderButtons();
-
-   $("#tech-buttons > button").on("click", function(event) {
+   $(document).on('click', '#tech-buttons > button', function(event) {
+   //$("#tech-buttons > button").on("click", function(event) {
 
       var technology = $(this).attr("data-val");
       console.log("technology: " + technology);
