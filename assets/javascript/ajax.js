@@ -8,7 +8,7 @@
    // Function for displaying gif data.
    function renderButtons() {
 
-    // Delete the content inside the gifs-appear-here div prior to adding new ones.
+    // Delete the content inside the gifs-appear-here div and added tech buttons, prior to adding new ones.
    
        $("#gifs-appear-here").empty();
        $("#tech-buttons").empty();
@@ -45,37 +45,60 @@
 
    $("#tech-buttons > button").on("click", function(event) {
 
-      var tech = $(this).attr("data-val");
-      console.log("tech: " + tech);
+      var technology = $(this).attr("data-val");
+      console.log("technology: " + technology);
 
       // query URL
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-      tech + "&api_key=5IyDIqfXAmQwbS5lWAZHLbYZUzz05gr5"; 
+      technology + "&api_key=5IyDIqfXAmQwbS5lWAZHLbYZUzz05gr5&limit=10"; 
 
       // Solicits AJAX call for button being clicked.
       $.ajax({
         url: queryURL,
         method: "GET"
-      }).then(function(response) {
+      })
 
-        console.log("response");
+      // After data comes back from the request
+      .then(function(response) {
+
         console.log(response);
+        console.log(queryURL);
 
-        //Creates a div to hold gif.
-        var gifDiv = $("<div class='gif'>");
+        // storing the data from the AJAX request in the results variable
+        var results = response.data;
+
+       // Looping through each result item
+       results.forEach(function(result) {
+        var gifDiv = $('<div>');
+        var p = $('<p>');
+        p.text(result.rating);
+        gifDiv.prepend(p);  
+
+        var img = $('<img>');
+            img.attr('src', result.images.fixed_height.url);
+
+            gifDiv.append(img);
+
+            $('#gifs-appear-here').append(gifDiv)
+          })
+
+        // //Creates a div to hold gif.
+        // var gifDiv = $("<div class='gif'>");
         
-        //Stores rating info.
-        var rating = response.rating;
+        // //Stores rating info.
+        // var rating = response.rating;
 
-        //Creates an element to have rating dispalyed.
-        var pRating = $("<p>").text("Rating: " + rating);
+        
 
-        // Displays the rating.
-        techDiv.append(pRating);
+        // //Creates an element to have rating dispalyed.
+        // var pRating = $("<p>").text("Rating: " + rating);
 
-});
+        // // Displays the rating.
+        // gifDiv.append(pRating);
 
-});
+      });
+
+    })
 
 // Code for pausing gifs.
 
